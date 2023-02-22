@@ -10,7 +10,10 @@ function loader (element) {
   element.textContent = ''
 
   loadInterval = setInterval (() => {
+    // Update the text content of the loading indicator
     element.textContent += '.';
+
+    // If the loading indicator has reached three dots, reset it
 
      if(element.textContent === '....'){
       element.textContent = '';
@@ -25,12 +28,16 @@ function typeText (element, text) {
     let interval = setInterval(() => {
       if(index < text.length) {
         element.innerHTML += text.charAt(index);
-        index++;
+        index++
       } else {
-        clearInterval(interval);
+        clearInterval(interval)
       }
-    }, 20);
+    }, 20)
 }
+
+// generate unique ID for each message div of bot
+// necessary for typing text effect for that specific reply
+// without unique ID, typing text will work on every element
 
 function generateUniqueId() {
   const timestamp = Date.now();
@@ -88,7 +95,7 @@ const handleSubmit = async (e) => {
     const response = await fetch('https://telepti.onrender.com',{
       method: 'post',
       headers: {
-        'Content-Type' : 'application/json'
+        'Content-Type' : 'application/json',
       },
       body: JSON.stringify({
         prompt: data.get('prompt')
@@ -99,7 +106,7 @@ const handleSubmit = async (e) => {
 
         if(response.ok) {
           const data = await response.json();
-          const parseData = data.bot.trim();
+          const parseData = data.bot.trim();    // trims any trailing spaces/'\n' 
 
           typeText(messageDiv, parseData);
         } else {
